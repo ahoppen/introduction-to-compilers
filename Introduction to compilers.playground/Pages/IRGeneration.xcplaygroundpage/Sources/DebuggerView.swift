@@ -115,7 +115,7 @@ public class DebuggerView: NSSplitView, NSTouchBarDelegate {
 
         // Create the header
         let header = NSTextField(labelWithString: "IR Debugger")
-        header.font = NSFont.systemFont(ofSize: 33, weight: NSFontWeightSemibold)
+        header.font = NSFont.systemFont(ofSize: 33, weight: NSFont.Weight.semibold)
         mainRegion.addFullWidthView(header)
 
         // Compile the program and set up the debugger

@@ -60,7 +60,7 @@ public struct CompilationError: Error, CustomDebugStringConvertible, CustomPlayg
 public extension String {
     public var monospacedString: NSAttributedString {
         let attrs = [
-            NSFontAttributeName: NSFont(name: "Menlo", size: 11)!
+            NSAttributedStringKey.font: NSFont(name: "Menlo", size: 11)!
         ]
         return NSAttributedString(string: self, attributes: attrs)
     }
@@ -69,7 +69,7 @@ public extension String {
 public extension NSAttributedString {
     public var withPlaygroundQuickLookBackgroundColor: NSAttributedString {
         let s = NSMutableAttributedString(attributedString: self)
-        s.addAttribute(NSBackgroundColorAttributeName, value: NSColor(white: 247.0/255, alpha: 1), range: NSRange(location: 0, length: s.length))
+        s.addAttribute(NSAttributedStringKey.backgroundColor, value: NSColor(white: 247.0/255, alpha: 1), range: NSRange(location: 0, length: s.length))
         return s
     }
 }

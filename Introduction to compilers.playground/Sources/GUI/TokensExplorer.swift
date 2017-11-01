@@ -23,7 +23,7 @@ open class TokensExplorer: NSSplitView {
 
         // Create header
         let sourceCodeHeader = NSTextField(labelWithString: "Source Code")
-        sourceCodeHeader.font = NSFont.systemFont(ofSize: 33, weight: NSFontWeightSemibold)
+        sourceCodeHeader.font = NSFont.systemFont(ofSize: 33, weight: NSFont.Weight.semibold)
 
         sourceViewerScrollView.documentView = self.sourceViewer
         sourceViewerScrollView.translatesAutoresizingMaskIntoConstraints = false

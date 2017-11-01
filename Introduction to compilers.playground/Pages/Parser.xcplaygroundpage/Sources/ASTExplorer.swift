@@ -33,7 +33,7 @@ public class ASTExplorer: TokensExplorer {
 
         // Create headers
         let astHeader = NSTextField(labelWithString: "AST")
-        astHeader.font = NSFont.systemFont(ofSize: 33, weight: NSFontWeightSemibold)
+        astHeader.font = NSFont.systemFont(ofSize: 33, weight: NSFont.Weight.semibold)
 
         // Create the ASTView
         let astView: NSView

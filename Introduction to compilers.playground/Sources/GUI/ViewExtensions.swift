@@ -9,7 +9,7 @@ public extension NSView {
                                                   attribute: .notAnAttribute,
                                                   multiplier: 1,
                                                   constant: 100)
-        heightConstraint.priority = priority
+        heightConstraint.priority = NSLayoutConstraint.Priority(priority)
         self.addConstraint(heightConstraint)
     }
 
@@ -21,7 +21,7 @@ public extension NSView {
                                                  attribute: .notAnAttribute,
                                                  multiplier: 1,
                                                  constant: 100)
-        widthConstraint.priority = priority
+        widthConstraint.priority = NSLayoutConstraint.Priority(priority)
         self.addConstraint(widthConstraint)
     }
 }

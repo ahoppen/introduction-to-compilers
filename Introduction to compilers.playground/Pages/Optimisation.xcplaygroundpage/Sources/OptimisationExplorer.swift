@@ -16,7 +16,7 @@ public class OptimisationExplorer: NSSplitView {
 
         // Set up source header
         let sourceCodeHeader = NSTextField(labelWithString: "Source Code")
-        sourceCodeHeader.font = NSFont.systemFont(ofSize: 33, weight: NSFontWeightSemibold)
+        sourceCodeHeader.font = NSFont.systemFont(ofSize: 33, weight: NSFont.Weight.semibold)
         addArrangedSubview(sourceCodeHeader)
 
         // Set up source view
@@ -72,7 +72,7 @@ public class OptimisationExplorer: NSSplitView {
             irView.translatesAutoresizingMaskIntoConstraints = false
 
             let headerView = NSTextField(labelWithString: title)
-            headerView.font = NSFont.systemFont(ofSize: 33, weight: NSFontWeightSemibold)
+            headerView.font = NSFont.systemFont(ofSize: 33, weight: NSFont.Weight.semibold)
             headerView.translatesAutoresizingMaskIntoConstraints = false
 
             let irScrollView = NSScrollView()

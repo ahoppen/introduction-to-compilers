@@ -103,7 +103,7 @@ public class TokenHoverView: NSTextView {
         let highlightedString = NSMutableAttributedString(attributedString: sourceFile.highlightedString)
         if let range = range {
             highlightedString.addAttributes([
-                NSBackgroundColorAttributeName: NSColor.selectedControlColor
+                NSAttributedStringKey.backgroundColor: NSColor.selectedControlColor
                 ], range: NSRange(location: range.start.offset, length: range.end.offset - range.start.offset))
         }
         textStorage?.setAttributedString(highlightedString)

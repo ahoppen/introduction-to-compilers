@@ -55,6 +55,6 @@ class SyntaxHighlighter {
         let textRange = NSRange(location: range.start.offset,
                                 length: range.end.offset - range.start.offset)
 
-        string.addAttributes([NSForegroundColorAttributeName: color], range: textRange)
+        string.addAttributes([NSAttributedStringKey.foregroundColor: color], range: textRange)
     }
 }
