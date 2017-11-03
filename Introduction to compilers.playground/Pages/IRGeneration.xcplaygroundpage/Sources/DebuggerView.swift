@@ -1,16 +1,16 @@
 import Cocoa
 
 fileprivate class TableViewCell: NSTableCellView { 
-    override var backgroundStyle: NSBackgroundStyle {
+    override var backgroundStyle: NSView.BackgroundStyle {
         didSet {
             let str = NSMutableAttributedString(attributedString: self.textField!.attributedStringValue)
             switch backgroundStyle {
             case .light:
-                str.addAttribute(NSForegroundColorAttributeName,
+                str.addAttribute(NSAttributedStringKey.foregroundColor,
                                  value: NSColor.black,
                                  range: NSRange(location: 0, length: str.length))
             case .dark:
-                str.addAttribute(NSForegroundColorAttributeName,
+                str.addAttribute(NSAttributedStringKey.foregroundColor,
                                  value: NSColor.white,
                                  range: NSRange(location: 0, length: str.length))
             default:
@@ -36,10 +36,10 @@ fileprivate class RegisterValuesDataSource: NSObject, NSTableViewDataSource, NST
         let (register, value) = sortedRegisterValues[row]
 
         let string = NSMutableAttributedString(string: "\(register) \(value)")
-        string.addAttribute(NSFontAttributeName,
-                            value: NSFont.boldSystemFont(ofSize: NSFont.systemFontSize()),
+        string.addAttribute(NSAttributedStringKey.font,
+                            value: NSFont.boldSystemFont(ofSize: NSFont.systemFontSize),
                             range: NSRange(location: 0, length: ("\(register)" as NSString).length))
-        string.addAttribute(NSForegroundColorAttributeName,
+        string.addAttribute(NSAttributedStringKey.foregroundColor,
                             value: NSColor.darkGray,
                             range: NSRange(location: ("\(register)" as NSString).length,
                                            length: (" \(value)" as NSString).length))
@@ -76,10 +76,11 @@ fileprivate class StackFramesDataSource: NSObject, NSTableViewDataSource, NSTabl
 
 }
 
-extension NSTouchBarItemIdentifier {
-    static let stepItem = NSTouchBarItemIdentifier("Step")
-    static let continueItem = NSTouchBarItemIdentifier("Continue")
-    static let resetItem = NSTouchBarItemIdentifier("Reset")
+@available(OSX 10.12.2, *)
+extension NSTouchBarItem.Identifier {
+    static let stepItem = NSTouchBarItem.Identifier("Step")
+    static let continueItem = NSTouchBarItem.Identifier("Continue")
+    static let resetItem = NSTouchBarItem.Identifier("Reset")
 }
 
 func +=(lhs: NSMutableAttributedString, rhs: NSAttributedString) {
@@ -204,7 +205,7 @@ public class DebuggerView: NSSplitView, NSTouchBarDelegate {
 
         stackFramesView.dataSource = self.stackFramesDataSource
         stackFramesView.delegate = self.stackFramesDataSource
-        let stackFrameColumn = NSTableColumn(identifier: "StackFrame")
+        let stackFrameColumn = NSTableColumn(identifier: .stackFrame)
         stackFrameColumn.title = "Call stack"
         stackFrameColumn.tableView = stackFramesView
         stackFramesView.addTableColumn(stackFrameColumn)
@@ -217,7 +218,7 @@ public class DebuggerView: NSSplitView, NSTouchBarDelegate {
         // Create the registers view
         registerValuesView.dataSource = self.registerValuesViewDataSource
         registerValuesView.delegate = self.registerValuesViewDataSource
-        let column = NSTableColumn(identifier: "RegisterValue")
+        let column = NSTableColumn(identifier: .registerValue)
         column.title = "Register values"
         column.tableView = registerValuesView
         registerValuesView.addTableColumn(column)
@@ -276,21 +277,21 @@ public class DebuggerView: NSSplitView, NSTouchBarDelegate {
     }
 
     @available(OSX 10.12.2, *)
-    public func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItemIdentifier) -> NSTouchBarItem? {
+    public func touchBar(_ touchBar: NSTouchBar, makeItemForIdentifier identifier: NSTouchBarItem.Identifier) -> NSTouchBarItem? {
         switch identifier {
-        case NSTouchBarItemIdentifier.stepItem:
+        case NSTouchBarItem.Identifier.stepItem:
             let customViewItem = NSCustomTouchBarItem(identifier: identifier)
             let button = NSButton(title: "⤼", target: self, action: #selector(step))
             button.font = NSFont.systemFont(ofSize: 20)
             customViewItem.view = button
             return customViewItem
-        case NSTouchBarItemIdentifier.continueItem:
+        case NSTouchBarItem.Identifier.continueItem:
             let customViewItem = NSCustomTouchBarItem(identifier: identifier)
             let button = NSButton(title: "↠", target: self, action: #selector(runUntilEnd))
             button.font = NSFont.systemFont(ofSize: 20)
             customViewItem.view = button
             return customViewItem
-        case NSTouchBarItemIdentifier.resetItem:
+        case NSTouchBarItem.Identifier.resetItem:
             let customViewItem = NSCustomTouchBarItem(identifier: identifier)
             let button = NSButton(title: "⟲", target: self, action: #selector(reset))
             button.font = NSFont.systemFont(ofSize: 20)
@@ -369,7 +370,7 @@ public class DebuggerView: NSSplitView, NSTouchBarDelegate {
         self.stackFramesView.selectRowIndexes([0], byExtendingSelection: false)
 
         let resultsString = NSAttributedString(string: debuggerState.output, attributes: [
-            NSFontAttributeName: NSFont(name: "Menlo Bold", size: 11)!
+            NSAttributedStringKey.font: NSFont(name: "Menlo Bold", size: 11)!
             ])
         self.resultsView.attributedStringValue = resultsString
     }
@@ -391,7 +392,7 @@ public class DebuggerView: NSSplitView, NSTouchBarDelegate {
                 for (index, instruction) in instructions.enumerated() {
                     let instructionString = NSMutableAttributedString(attributedString: ("    " + instruction.debugDescription + "\n").monospacedString)
                     if functionName == currentFunctionName && blockName == currentBlock && index == currentInstructionIndex {
-                        instructionString.addAttribute(NSBackgroundColorAttributeName,
+                        instructionString.addAttribute(.backgroundColor,
                                                        value: #colorLiteral(red: 0.8431372549, green: 0.9098039216, blue: 0.8549019608, alpha: 1),
                                                        range: NSRange(location: 0, length: instructionString.length))
                     }
@@ -403,4 +404,9 @@ public class DebuggerView: NSSplitView, NSTouchBarDelegate {
         
         self.irView.attributedStringValue = result
     }
+}
+
+private extension NSUserInterfaceItemIdentifier {
+    static let stackFrame = NSUserInterfaceItemIdentifier("StackFrame")
+    static let registerValue = NSUserInterfaceItemIdentifier("RegisterValue")
 }
