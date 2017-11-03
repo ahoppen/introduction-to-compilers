@@ -36,7 +36,7 @@ public class TokenHoverView: NSTextView {
 
         // Create the hover view
         self.tokenHoverView.backgroundColor = NSColor(white: 0.95, alpha: 1)
-        self.tokenHoverView.font = NSFont.systemFont(ofSize: 13)
+        self.tokenHoverView.font = .systemFont(ofSize: 13)
         self.tokenHoverView.drawsBackground = true
         self.tokenHoverView.wantsLayer = true
         self.tokenHoverView.layer?.borderColor = NSColor.lightGray.cgColor
@@ -103,7 +103,7 @@ public class TokenHoverView: NSTextView {
         let highlightedString = NSMutableAttributedString(attributedString: sourceFile.highlightedString)
         if let range = range {
             highlightedString.addAttributes([
-                NSAttributedStringKey.backgroundColor: NSColor.selectedControlColor
+                .backgroundColor: NSColor.selectedControlColor
                 ], range: NSRange(location: range.start.offset, length: range.end.offset - range.start.offset))
         }
         textStorage?.setAttributedString(highlightedString)

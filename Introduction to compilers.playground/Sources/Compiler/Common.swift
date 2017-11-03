@@ -69,7 +69,7 @@ public extension String {
 public extension NSAttributedString {
     public var withPlaygroundQuickLookBackgroundColor: NSAttributedString {
         let s = NSMutableAttributedString(attributedString: self)
-        s.addAttribute(NSAttributedStringKey.backgroundColor, value: NSColor(white: 247.0/255, alpha: 1), range: NSRange(location: 0, length: s.length))
+        s.addAttribute(.backgroundColor, value: NSColor(white: 247.0/255, alpha: 1), range: NSRange(location: 0, length: s.length))
         return s
     }
 }

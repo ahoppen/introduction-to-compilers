@@ -6,11 +6,11 @@ fileprivate class TableViewCell: NSTableCellView {
             let str = NSMutableAttributedString(attributedString: self.textField!.attributedStringValue)
             switch backgroundStyle {
             case .light:
-                str.addAttribute(NSAttributedStringKey.foregroundColor,
+                str.addAttribute(.foregroundColor,
                                  value: NSColor.black,
                                  range: NSRange(location: 0, length: str.length))
             case .dark:
-                str.addAttribute(NSAttributedStringKey.foregroundColor,
+                str.addAttribute(.foregroundColor,
                                  value: NSColor.white,
                                  range: NSRange(location: 0, length: str.length))
             default:
@@ -36,10 +36,10 @@ fileprivate class RegisterValuesDataSource: NSObject, NSTableViewDataSource, NST
         let (register, value) = sortedRegisterValues[row]
 
         let string = NSMutableAttributedString(string: "\(register) \(value)")
-        string.addAttribute(NSAttributedStringKey.font,
+        string.addAttribute(.font,
                             value: NSFont.boldSystemFont(ofSize: NSFont.systemFontSize),
                             range: NSRange(location: 0, length: ("\(register)" as NSString).length))
-        string.addAttribute(NSAttributedStringKey.foregroundColor,
+        string.addAttribute(.foregroundColor,
                             value: NSColor.darkGray,
                             range: NSRange(location: ("\(register)" as NSString).length,
                                            length: (" \(value)" as NSString).length))
@@ -116,7 +116,7 @@ public class DebuggerView: NSSplitView, NSTouchBarDelegate {
 
         // Create the header
         let header = NSTextField(labelWithString: "IR Debugger")
-        header.font = NSFont.systemFont(ofSize: 33, weight: NSFont.Weight.semibold)
+        header.font = .systemFont(ofSize: 33, weight: .semibold)
         mainRegion.addFullWidthView(header)
 
         // Compile the program and set up the debugger
@@ -176,7 +176,7 @@ public class DebuggerView: NSSplitView, NSTouchBarDelegate {
 
         func createDebuggerButton(withTitle title: String, action: Selector) -> NSButton {
             let button = NSButton(title: title, target: self, action: action)
-            button.font = NSFont.systemFont(ofSize: 20)
+            button.font = .systemFont(ofSize: 20)
             button.isBordered = false
             button.translatesAutoresizingMaskIntoConstraints = false
 
@@ -282,19 +282,19 @@ public class DebuggerView: NSSplitView, NSTouchBarDelegate {
         case NSTouchBarItem.Identifier.stepItem:
             let customViewItem = NSCustomTouchBarItem(identifier: identifier)
             let button = NSButton(title: "⤼", target: self, action: #selector(step))
-            button.font = NSFont.systemFont(ofSize: 20)
+            button.font = .systemFont(ofSize: 20)
             customViewItem.view = button
             return customViewItem
         case NSTouchBarItem.Identifier.continueItem:
             let customViewItem = NSCustomTouchBarItem(identifier: identifier)
             let button = NSButton(title: "↠", target: self, action: #selector(runUntilEnd))
-            button.font = NSFont.systemFont(ofSize: 20)
+            button.font = .systemFont(ofSize: 20)
             customViewItem.view = button
             return customViewItem
         case NSTouchBarItem.Identifier.resetItem:
             let customViewItem = NSCustomTouchBarItem(identifier: identifier)
             let button = NSButton(title: "⟲", target: self, action: #selector(reset))
-            button.font = NSFont.systemFont(ofSize: 20)
+            button.font = .systemFont(ofSize: 20)
             customViewItem.view = button
             return customViewItem
         default:
@@ -370,7 +370,7 @@ public class DebuggerView: NSSplitView, NSTouchBarDelegate {
         self.stackFramesView.selectRowIndexes([0], byExtendingSelection: false)
 
         let resultsString = NSAttributedString(string: debuggerState.output, attributes: [
-            NSAttributedStringKey.font: NSFont(name: "Menlo Bold", size: 11)!
+            .font: NSFont(name: "Menlo Bold", size: 11)!
             ])
         self.resultsView.attributedStringValue = resultsString
     }
