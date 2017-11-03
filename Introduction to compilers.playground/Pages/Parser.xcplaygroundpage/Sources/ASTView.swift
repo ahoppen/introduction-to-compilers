@@ -1,7 +1,7 @@
 import Cocoa
 
 fileprivate class TableViewCell: NSTableCellView {
-    override var backgroundStyle: NSBackgroundStyle {
+    override var backgroundStyle: BackgroundStyle {
         didSet {
             switch backgroundStyle {
             case .light:
@@ -42,7 +42,7 @@ fileprivate class ASTTreeViewItem {
 
     public var label: NSAttributedString {
         let monospaceFontAttributes = [
-            NSFontAttributeName: NSFont(name: "Menlo", size: NSFont.systemFontSize())!
+            NSAttributedStringKey.font: NSFont(name: "Menlo", size: NSFont.systemFontSize)!
         ]
         if node is IfStatement {
             let str = NSMutableAttributedString(string: "If statement")
@@ -148,7 +148,7 @@ public class ASTView: NSOutlineView {
         self.dataSource = self.astViewDataSource
         self.delegate = self.astViewDataSource
 
-        let column = NSTableColumn(identifier: "TheColumn")
+        let column = NSTableColumn(identifier: .theColumn)
         column.tableView = self
         self.addTableColumn(column)
         self.outlineTableColumn = column
@@ -162,4 +162,8 @@ public class ASTView: NSOutlineView {
         fatalError("init(coder:) has not been implemented")
     }
     
+}
+
+private extension NSUserInterfaceItemIdentifier {
+    static let theColumn = NSUserInterfaceItemIdentifier("TheColumn")
 }

@@ -28,12 +28,12 @@ public class ASTExplorer: TokensExplorer {
                                                   attribute: .notAnAttribute,
                                                   multiplier: 1,
                                                   constant: 100)
-        heightConstraint.priority = 900
+        heightConstraint.priority = NSLayoutConstraint.Priority(rawValue: 900)
         sourceViewer.addConstraint(heightConstraint)
 
         // Create headers
         let astHeader = NSTextField(labelWithString: "AST")
-        astHeader.font = NSFont.systemFont(ofSize: 33, weight: NSFontWeightSemibold)
+        astHeader.font = .systemFont(ofSize: 33, weight: .semibold)
 
         // Create the ASTView
         let astView: NSView
