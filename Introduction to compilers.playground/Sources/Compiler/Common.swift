@@ -32,7 +32,7 @@ public struct SourceRange: CustomDebugStringConvertible {
 }
 
 /// Error thrown when a compilation error occurs
-public struct CompilationError: Error, CustomDebugStringConvertible, CustomPlaygroundQuickLookable {
+public struct CompilationError: Error, CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
     /// The location at which this error occurred
     public let location: SourceLoc
     /// The error message to be displayed to the user
@@ -42,8 +42,8 @@ public struct CompilationError: Error, CustomDebugStringConvertible, CustomPlayg
         return "\(location): \(errorMessage)"
     }
 
-    public var customPlaygroundQuickLook: PlaygroundQuickLook {
-        return .text(debugDescription)
+    public var playgroundDescription: Any {
+        return debugDescription
     }
 
     public init(sourceRange: SourceRange, errorMessage: String) {
@@ -58,16 +58,16 @@ public struct CompilationError: Error, CustomDebugStringConvertible, CustomPlayg
 }
 
 public extension String {
-    public var monospacedString: NSAttributedString {
+    var monospacedString: NSAttributedString {
         let attrs = [
-            NSAttributedStringKey.font: NSFont(name: "Menlo", size: 11)!
+            NSAttributedString.Key.font: NSFont(name: "Menlo", size: 11)!
         ]
         return NSAttributedString(string: self, attributes: attrs)
     }
 }
 
 public extension NSAttributedString {
-    public var withPlaygroundQuickLookBackgroundColor: NSAttributedString {
+    var withPlaygroundQuickLookBackgroundColor: NSAttributedString {
         let s = NSMutableAttributedString(attributedString: self)
         s.addAttribute(.backgroundColor, value: NSColor(white: 247.0/255, alpha: 1), range: NSRange(location: 0, length: s.length))
         return s

@@ -11,9 +11,9 @@ public struct Register: Hashable, CustomStringConvertible {
     public static func ==(lhs: Register, rhs: Register) -> Bool {
         return lhs.name == rhs.name
     }
-
-    public var hashValue: Int {
-        return name.hashValue
+  
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
     }
 
     public var description: String {
@@ -33,9 +33,9 @@ public struct BlockName: Hashable, CustomStringConvertible {
     public static func ==(lhs: BlockName, rhs: BlockName) -> Bool {
         return lhs.name == rhs.name
     }
-
-    public var hashValue: Int {
-        return name.hashValue
+  
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
     }
 
     public var description: String {
@@ -117,7 +117,7 @@ public enum IRInstruction: CustomDebugStringConvertible {
 
 /// A program in the compiler's IR, consisting of the IR's basic blocks and the block in which to
 /// start execution
-public struct IRFunction: CustomDebugStringConvertible, CustomPlaygroundQuickLookable {
+public struct IRFunction: CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
     public let startBlock: BlockName
     public let blocks: [BlockName: [IRInstruction]]
     public let argumentRegisters: [Register]
@@ -135,12 +135,12 @@ public struct IRFunction: CustomDebugStringConvertible, CustomPlaygroundQuickLoo
         return result
     }
 
-    public var customPlaygroundQuickLook: PlaygroundQuickLook {
-        return .attributedString(self.debugDescription.monospacedString.withPlaygroundQuickLookBackgroundColor)
+    public var playgroundDescription: Any {
+        return self.debugDescription.monospacedString.withPlaygroundQuickLookBackgroundColor
     }
 }
 
-public struct IR: CustomDebugStringConvertible, CustomPlaygroundQuickLookable {
+public struct IR: CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
     public let functions: [String: IRFunction]
 
     public var debugDescription: String {
@@ -156,7 +156,7 @@ public struct IR: CustomDebugStringConvertible, CustomPlaygroundQuickLookable {
         return result
     }
 
-    public var customPlaygroundQuickLook: PlaygroundQuickLook {
-        return .attributedString(self.debugDescription.monospacedString.withPlaygroundQuickLookBackgroundColor)
+    public var playgroundDescription: Any {
+        return self.debugDescription.monospacedString.withPlaygroundQuickLookBackgroundColor
     }
 }

@@ -19,7 +19,7 @@ class MyParser: Parser {
         // Check that the next token is indeed `if`, otherwise emit an error
         guard nextToken == .if else {
             throw CompilationError(sourceRange: nextToken.sourceRange,
-                                   errorMessage: "Expected 'if' but saw \(nextToken)")
+                                   errorMessage: "Expected 'if' but saw \(nextToken!)")
         }
         // Save the source range in which the `if` keyword occurred
         // This will potentially be used later for error messages

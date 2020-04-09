@@ -21,7 +21,7 @@ fileprivate class ASTTreeViewItem {
     var children: [ASTTreeViewItem] {
         let childNodes: [ASTNode]
         if let casted = node as? IfStatement {
-            childNodes = [casted.condition, casted.body, casted.elseBody].flatMap({ $0 })
+            childNodes = [casted.condition, casted.body, casted.elseBody].compactMap({ $0 })
         } else if let casted = node as? BraceStatement {
             childNodes = casted.body
         } else if let casted = node as? ReturnStatement {
@@ -31,7 +31,7 @@ fileprivate class ASTTreeViewItem {
         } else if let casted = node as? BinaryOperatorExpression {
             childNodes = [casted.lhs, casted.rhs]
         } else if let casted = node as? FunctionCallExpression {
-            childNodes = casted.arguments.flatMap({ $0 })
+            childNodes = casted.arguments.compactMap({ $0 })
         } else if let casted = node as? ASTRoot {
             childNodes = casted.statements
         } else {
@@ -42,7 +42,7 @@ fileprivate class ASTTreeViewItem {
 
     public var label: NSAttributedString {
         let monospaceFontAttributes = [
-            NSAttributedStringKey.font: NSFont(name: "Menlo", size: NSFont.systemFontSize)!
+            NSAttributedString.Key.font: NSFont(name: "Menlo", size: NSFont.systemFontSize)!
         ]
         if node is IfStatement {
             let str = NSMutableAttributedString(string: "If statement")

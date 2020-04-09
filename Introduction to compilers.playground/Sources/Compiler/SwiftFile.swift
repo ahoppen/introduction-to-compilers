@@ -1,7 +1,7 @@
 import Foundation
 
 /// Represents the source code that was contained in a `.swift` file
-public struct SwiftFile: _ExpressibleByFileReferenceLiteral, CustomStringConvertible, CustomPlaygroundQuickLookable {
+public struct SwiftFile: _ExpressibleByFileReferenceLiteral, CustomStringConvertible, CustomPlaygroundDisplayConvertible {
     public let sourceCode: String
 
     public init(fileReferenceLiteralResourceName path: String) {
@@ -25,7 +25,7 @@ public struct SwiftFile: _ExpressibleByFileReferenceLiteral, CustomStringConvert
         return SyntaxHighlighter.highlight(sourceFile: self)
     }
 
-    public var customPlaygroundQuickLook: PlaygroundQuickLook {
-        return .attributedString(self.highlightedString.withPlaygroundQuickLookBackgroundColor)
+    public var playgroundDescription: Any {
+        return self.highlightedString.withPlaygroundQuickLookBackgroundColor
     }
 }

@@ -1,5 +1,5 @@
 /// A node in the source codes abstract syntax tree (AST)
-public class ASTNode: CustomDebugStringConvertible, CustomPlaygroundQuickLookable {
+public class ASTNode: CustomDebugStringConvertible, CustomPlaygroundDisplayConvertible {
     /// The range in the source code which this node represents
     public let sourceRange: SourceRange
 
@@ -9,8 +9,8 @@ public class ASTNode: CustomDebugStringConvertible, CustomPlaygroundQuickLookabl
         return printer.output
     }
 
-    public var customPlaygroundQuickLook: PlaygroundQuickLook {
-        return .attributedString(debugDescription.monospacedString.withPlaygroundQuickLookBackgroundColor)
+    public var playgroundDescription: Any {
+        return debugDescription.monospacedString.withPlaygroundQuickLookBackgroundColor
     }
 
     init(sourceRange: SourceRange) {
@@ -223,9 +223,11 @@ public class Declaration: Statement {
 public class VariableDeclaration: Declaration, Hashable {
     /// The name of the variable
     public let name: String
-
-    public var hashValue: Int {
-        return name.hashValue + type.hashValue
+  
+  
+    public func hash(into hasher: inout Hasher) {
+        hasher.combine(name)
+        hasher.combine(type)
     }
 
     init(name: String, type: Type, sourceRange: SourceRange) {

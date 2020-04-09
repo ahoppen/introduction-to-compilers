@@ -201,16 +201,16 @@ open class Parser {
 
     private func parseFunctionDeclaration() throws -> FunctionDeclaration {
         guard nextToken.payload == .func else {
-            throw CompilationError(sourceRange: nextToken.sourceRange, errorMessage: "Expected 'func' but saw \(nextToken)")
+            throw CompilationError(sourceRange: nextToken.sourceRange, errorMessage: "Expected 'func' but saw \(nextToken!)")
         }
         let funcKeywordRange = nextToken.sourceRange
         try consumeToken()
         guard case .identifier(let funcName) = nextToken.payload else {
-            throw CompilationError(sourceRange: nextToken.sourceRange, errorMessage: "Expected identifier after 'func' keyword but saw \(nextToken)")
+            throw CompilationError(sourceRange: nextToken.sourceRange, errorMessage: "Expected identifier after 'func' keyword but saw \(nextToken!)")
         }
         try consumeToken()
         guard try consumeIf(.leftParen) else {
-            throw CompilationError(sourceRange: nextToken.sourceRange, errorMessage: "Expeced '(' to start the functions parameter list but saw \(nextToken)")
+            throw CompilationError(sourceRange: nextToken.sourceRange, errorMessage: "Expeced '(' to start the functions parameter list but saw \(nextToken!)")
         }
 
         var parameters: [VariableDeclaration] = []
@@ -226,7 +226,7 @@ open class Parser {
             parameters.append(try parseVariableDeclaration())
             if !(try consumeIf(.comma)) {
                 if !(try consumeIf(.rightParen)) {
-                    throw CompilationError(sourceRange: nextToken.sourceRange, errorMessage: "Expeced ')' to end the functions parameter list but saw \(nextToken)")
+                    throw CompilationError(sourceRange: nextToken.sourceRange, errorMessage: "Expeced ')' to end the functions parameter list but saw \(nextToken!)")
                 }
                 break
             }
@@ -235,7 +235,7 @@ open class Parser {
         var returnTypeName = "Void"
         if try consumeIf(.arrow) {
             guard case .identifier(let returnTypeName2) = nextToken.payload else {
-                throw CompilationError(sourceRange: nextToken.sourceRange, errorMessage: "Expeced the function's return type but saw \(nextToken)")
+                throw CompilationError(sourceRange: nextToken.sourceRange, errorMessage: "Expeced the function's return type but saw \(nextToken!)")
             }
             try consumeToken()
             returnTypeName = returnTypeName2
@@ -253,14 +253,14 @@ open class Parser {
     private func parseVariableDeclaration() throws -> VariableDeclaration {
         let startLoc = nextToken.sourceRange.start
         guard case .identifier(let paramName) = nextToken.payload else {
-            throw CompilationError(sourceRange: nextToken.sourceRange, errorMessage: "Expected identifier to specify the parameter's name but saw \(nextToken)")
+            throw CompilationError(sourceRange: nextToken.sourceRange, errorMessage: "Expected identifier to specify the parameter's name but saw \(nextToken!)")
         }
         try consumeToken()
         guard try consumeIf(.colon) else {
-            throw CompilationError(sourceRange: nextToken.sourceRange, errorMessage: "Expected ':' to seperate the parameter's name and type but saw \(nextToken)")
+            throw CompilationError(sourceRange: nextToken.sourceRange, errorMessage: "Expected ':' to seperate the parameter's name and type but saw \(nextToken!)")
         }
         guard case .identifier(let paramTypeName) = nextToken.payload else {
-            throw CompilationError(sourceRange: nextToken.sourceRange, errorMessage: "Expected identifier to specify the parameter's type but saw \(nextToken)")
+            throw CompilationError(sourceRange: nextToken.sourceRange, errorMessage: "Expected identifier to specify the parameter's type but saw \(nextToken!)")
         }
         guard let paramType = Type.fromString(paramTypeName) else {
             throw CompilationError(sourceRange: nextToken.sourceRange, errorMessage: "Unknown type '\(paramTypeName)'")
@@ -271,7 +271,7 @@ open class Parser {
 
     open func parseIfStatement() throws -> Statement {
         guard nextToken == .if else {
-            throw CompilationError(sourceRange: nextToken.sourceRange, errorMessage: "Expected 'if' but saw \(nextToken)")
+            throw CompilationError(sourceRange: nextToken.sourceRange, errorMessage: "Expected 'if' but saw \(nextToken!)")
         }
         let ifRange = nextToken.sourceRange
         try consumeToken()
